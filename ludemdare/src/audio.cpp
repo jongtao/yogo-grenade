@@ -19,7 +19,7 @@ Audio::Audio(): song_instance(NULL)
 
 void Audio::play(int num)
 {
-	al_play_sample(sounds[num], 1.75, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
+	al_play_sample(sounds[num], 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 }
 
 
