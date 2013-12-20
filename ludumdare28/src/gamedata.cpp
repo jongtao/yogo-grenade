@@ -142,7 +142,7 @@ void Bunny::update()
 		if(is_on_ground)
 		{
 			srand(1000 * al_get_time());
-			timer = rand() % 61 + 32;
+			timer = rand() % 61 + 16;
 
 			vy -= jump_height;
 			audio->play(RABBIT_JUMP_S);

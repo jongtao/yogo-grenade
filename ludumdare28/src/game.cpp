@@ -15,7 +15,6 @@ Game::Game(ALLEGRO_EVENT_QUEUE **event_queue, ALLEGRO_TIMER **timer,
 
 void Game::update()
 {
-
 	switch(mode)
 	{
 		case PRELUDE:
