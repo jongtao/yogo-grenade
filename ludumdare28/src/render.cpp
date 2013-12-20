@@ -6,24 +6,23 @@ Render::Render(ALLEGRO_DISPLAY **display, Mapdata *mapdata,
 	al_init_font_addon();
 	al_init_ttf_addon();
 
-	font24 = al_load_font("OldNewspaperTypes.ttf", 24, 0);
-	font16 = al_load_font("OldNewspaperTypes.ttf", 16, 0);
+	font24 = al_load_font("resources/OldNewspaperTypes.ttf", 24, 0);
+	font16 = al_load_font("resources/OldNewspaperTypes.ttf", 16, 0);
 	if(font24 == NULL || font16 == NULL)
 		abort_game("null font");
 
-	bitmaps[0] = al_load_bitmap("orange.png");
-	bitmaps[1] = al_load_bitmap("dirt.png");
-	bitmaps[2] = al_load_bitmap("bunny.png");
-	bitmaps[3] = al_load_bitmap("gun.png");
-	bitmaps[4] = al_load_bitmap("bullet.png");
-	bitmaps[5] = al_load_bitmap("grenade.png");
-	bitmaps[6] = al_load_bitmap("white.png");
-	bitmaps[7] = al_load_bitmap("portal.png");
+	bitmaps[0] = al_load_bitmap("resources/orange.png");
+	bitmaps[1] = al_load_bitmap("resources/dirt.png");
+	bitmaps[2] = al_load_bitmap("resources/bunny.png");
+	bitmaps[3] = al_load_bitmap("resources/gun.png");
+	bitmaps[4] = al_load_bitmap("resources/bullet.png");
+	bitmaps[5] = al_load_bitmap("resources/grenade.png");
+	bitmaps[6] = al_load_bitmap("resources/white.png");
+	bitmaps[7] = al_load_bitmap("resources/portal.png");
 
-	for(int i = 0; i <= 7; i++)
+	for(int i = 0; i <= 7; i++) // check for resource error
 		if(bitmaps[i] == NULL)
 			abort_game("null sprite");
-			//load error
 } // Render()
 
 
@@ -77,12 +76,15 @@ void Render::theme()
 {
 	al_clear_to_color(al_map_rgb(0, 65, 34));
 	mapbg();
+
+	// Render Player
 	if((int)gamedata->player.aim_x > 0)
 		al_draw_scaled_rotated_bitmap(bitmaps[PLAYER],
 						23, 2,
 						GAME_WIDTH/2, GAME_HEIGHT/2,	
 						-1, 1,
 						0, 0);
+
 	if((int)gamedata->player.aim_x <= 0)
 		al_draw_scaled_rotated_bitmap(bitmaps[PLAYER],
 						13, 2,
@@ -90,6 +92,7 @@ void Render::theme()
 						1, 1,
 						0, 0);
 
+	// Render Gun
 	double angle = atan2(-gamedata->player.aim_y, gamedata->player.aim_x);
 
 	if((int)gamedata->player.aim_x > 0)
@@ -106,9 +109,7 @@ void Render::theme()
 				1, 1,
 				-angle + 3.14159, 0);
 
-
-	// draw bullets
-	
+	// Render Bullets
 	for(unsigned int i = 0; i < gamedata->player.bullets.size(); i++)
 	{
 		al_draw_scaled_rotated_bitmap(bitmaps[BULLET],
@@ -119,9 +120,7 @@ void Render::theme()
 				gamedata->player.bullets[i].angle + 3.14159, 0);
 	} // for i
 
-		
-
-	// draw bunnies
+	// Render Bunnies
 	for(unsigned int i = 0; i < gamedata->bunnies.size(); i++)
 		if(gamedata->bunnies[i].is_alive != false)
 		{
@@ -149,10 +148,7 @@ void Render::theme()
 				1, 1,
 				0, 0);
 
-
-
-	//font
-
+	// Render texts
 	sprintf(string1, "%d", gamedata->player.health);
 	al_draw_text(font24, al_map_rgb(10, 10, 0), 50, 525, 0, string1);
 
@@ -173,16 +169,14 @@ void Render::theme()
 		al_draw_text(font24, al_map_rgb(10, 10, 0), 325, 525, 0,
 			"You have 0 Holy Hand Grenades.");
 
-
-
-	// whiteout
+	// Render explosion whiteout
 	if(gamedata->player.grenade->is_alive)
 	{
 		double temp = 1.0 - gamedata->player.grenade->death_timer/300.0;
 		al_draw_tinted_bitmap(bitmaps[WHITE],
 			al_map_rgba_f(temp, temp, temp, 0),
 		   0, 0, 0);
-	}
+	} // if grenade exploding
 
 	al_flip_display();
 } // theme()
@@ -191,22 +185,21 @@ void Render::theme()
 
 void Render::mapbg()
 {
+	// Find map tiles and draw them
 	for(int i = 0; i < mapdata->length; i++)
 		for(int j = 0; j < 256; j++)
 			if(mapdata->data[i][j] == 'M')
-			{
 				al_draw_bitmap(bitmaps[GROUND],
 					- gamedata->player.x + (i * 32) + GAME_WIDTH/2,
 					floor(- gamedata->player.y) - (j * 32) + GAME_HEIGHT/2,
 					0);
-			}
-
 	
+	// Draw bunny portal
 	al_draw_bitmap(bitmaps[PORTAL],
 		- gamedata->player.x + (mapdata->bunny_x * 32) + GAME_WIDTH/2,
 		floor(- gamedata->player.y) - (mapdata->bunny_y * 32) + GAME_HEIGHT/2,
 		0);
-} // mapbg
+} // mapbg()
 
 
 
@@ -219,3 +212,4 @@ void Render::finale()
 
 	al_flip_display();
 } // finale()
+
