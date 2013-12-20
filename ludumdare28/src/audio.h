@@ -1,10 +1,10 @@
 #ifndef AUDIO_H
 #define AUDIO_H
+
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 
-#include <cstdio>
 #include "init.h"
 
 enum sound_names
@@ -19,6 +19,7 @@ enum sound_names
 }; // enum sound_names
 
 
+
 class Audio
 {
 public:
@@ -30,8 +31,8 @@ public:
 	void play(int num);
 	void play_r(int num);
 	void stop_r();
-	
 }; // 
+
 
 
 #endif

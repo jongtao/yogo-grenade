@@ -369,7 +369,7 @@ void Gamedata::add_bunnies(Mapdata *mapdata)
 
 
 	// add bunnies
-	if(bunnies.size() <= max)
+	if(bunnies.size() <= (unsigned)max)
 	{
 		printf("Bunnies on field:%lu, Bunnies added: %u\n", bunnies.size(),
 			numBunnies);

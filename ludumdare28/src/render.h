@@ -1,5 +1,6 @@
 #ifndef RENDER_H
 #define RENDER_H
+
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_font.h>
@@ -15,6 +16,7 @@
 #include "gamedata.h"
 
 
+
 enum bitmap_names
 {
 	PLAYER,
@@ -26,6 +28,8 @@ enum bitmap_names
 	WHITE,
 	PORTAL
 }; // enum bitmap_names
+
+
 
 class Render
 {
@@ -56,3 +60,4 @@ public:
 }; // class Render
 
 #endif
+

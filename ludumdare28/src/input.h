@@ -1,8 +1,10 @@
 #ifndef INPUT_H
 #define INPUT_H
+
 #include <allegro5/allegro5.h>
-#include <iostream>
+
 #include <cmath>
+
 #include "constants.h"
 
 class Input

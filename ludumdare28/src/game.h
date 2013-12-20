@@ -2,7 +2,6 @@
 #define GAME_H
 
 #include <allegro5/allegro5.h>
-#include <iostream>
 
 #include "input.h"
 #include "render.h"

@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <cstdio>
+
 #include "mapdata.h"
 #include "constants.h"
 
@@ -12,7 +13,6 @@ class Physics
 private:
 	int grav_a;
 	int fric_a;
-
 
 	void check_x_wall(float *vx, float *vy, float x, float y, int width,
 		int height, Mapdata* mapdata);

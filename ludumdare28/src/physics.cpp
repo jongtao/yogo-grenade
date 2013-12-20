@@ -1,6 +1,7 @@
 #include "physics.h"
 
 
+
 Physics::Physics(): grav_a(40), fric_a(16)
 {
 } // physics()
@@ -12,13 +13,6 @@ bool Physics::on_ground(float x, float y, int width, int height,
 {
 	int t_x = (int)floor(x+width/2) / 32.0;
 	int t_y = (int)ceil(-(y+height + 1) / 32.0);
-/*
-	for(int i = 0; i <= width; i++)
-	{ 
-		t_x = (int)((x + i) / 32.0);
-		mapdata->fetch_wall(t_x, t_y);
-	}
-*/
 
 	return !mapdata->fetch_wall(t_x, t_y);
 } // on_ground()
@@ -70,7 +64,6 @@ void Physics::friction(float *vx, float *vy)
 void Physics::check_x_wall(float *vx, float *vy, float x, float y, int width,
 	int height,	Mapdata* mapdata)
 {
-
 	if(*vx == 0)
 		return;
 
@@ -184,7 +177,6 @@ void Physics::check_wall_col(float *vx, float *vy, float x, float y, int width,
 
 	for(int i = 0; i < 4; i++)
 	{
-
 		switch(i)
 		{
 			case 0:
@@ -201,7 +193,6 @@ void Physics::check_wall_col(float *vx, float *vy, float x, float y, int width,
 				y = save_y + height;
 				break;
 		} // switch i
-
 
 	check_x_wall(vx, vy, x, y, width, height, mapdata);
 	check_y_wall(vx, vy, x, y, width, height, mapdata);
