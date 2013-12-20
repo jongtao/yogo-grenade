@@ -1,4 +1,4 @@
-yogo-grenade
+Yogo-Grenade
 ============
 
-ludem dare 28
+This is a Ludum Dare 28 entry!

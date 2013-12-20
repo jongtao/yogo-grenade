@@ -21,7 +21,27 @@ Audio::Audio(): song_instance(NULL)
 
 void Audio::play(int num)
 {
-	al_play_sample(sounds[num], 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
+	float gain = 1.0;
+
+	switch(num)
+	{
+		case RABBIT_JUMP_S:
+			gain = 0.5;
+			break;
+		case GUN_S:
+			gain = 1.5;
+			break;
+		case EXPLOSION_S:
+			gain = 4;
+			break;
+		case HURT_S:
+			gain = 2;
+			break;
+		default:
+			break;
+	} // switch num
+
+	al_play_sample(sounds[num], gain, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 } // play()
 
 
@@ -31,7 +51,7 @@ void Audio::play_r(int num)
 	song_instance = al_create_sample_instance(sounds[num]);
 	al_set_sample_instance_playmode(song_instance, ALLEGRO_PLAYMODE_LOOP);
 	
-	al_set_sample_instance_gain(song_instance, 1.5);
+	al_set_sample_instance_gain(song_instance, 1.0);
 		al_attach_sample_instance_to_mixer(song_instance, al_get_default_mixer());
 
 	al_play_sample_instance(song_instance);
