@@ -7,6 +7,17 @@ Yogo Grenade is short for "You Only Get One Holy Hand Grenade"!
 The goal of the game is to stay alive for as long as possible!
 
 
+
+Making Your Own Maps
+===========
+
+You can make your own maps!
+It's just a text file!
+There's the map.txt as an example.
+'M' are the wall tiles and, 'S' is the player spawn, and 'E' is Rabbit spawn.
+Don't put more than 256 characters for each line or over 1024 lines.
+I didn't get to rewriting my C arrays to grow dynamically.
+
 Running the Game
 ================
 
