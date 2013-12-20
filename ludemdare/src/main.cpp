@@ -1,9 +1,12 @@
 // Ludem Dare 28
 
 #include <allegro5/allegro5.h>
+
 #include <cstdio>
+
 #include "init.h"
 #include "game.h"
+
 
 
 void game_loop(ALLEGRO_EVENT_QUEUE **event_queue, ALLEGRO_TIMER **timer,
@@ -52,3 +55,4 @@ int main(int argc, char* argv[])
 
 	return 0;
 } // main()
+

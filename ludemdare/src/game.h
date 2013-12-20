@@ -36,7 +36,6 @@ public:
 
 	Game(ALLEGRO_EVENT_QUEUE **event_queue, ALLEGRO_TIMER **timer,
 		ALLEGRO_DISPLAY **display);
-	~Game();
 	void update();
 	void draw();
 

@@ -1,6 +1,7 @@
 #include "gamedata.h"
 
 
+
 Entity::Entity(Mapdata *mapdata, Physics *physics, Audio *audio):
 	mapdata(mapdata), physics(physics), audio(audio),
 	x(0), y(0), vx(0), vy(0), accel(0), max_speed(0)
@@ -29,7 +30,7 @@ Player::Player(int x, int y, Mapdata *mapdata, Physics *physics, Audio *audio,
 Player::~Player()
 {
 	delete grenade;
-}
+} // ~Player()
 
 
 
@@ -41,20 +42,22 @@ void Player::update(Input *inputs)
 		return;
 	} // health
 
-
 	// deal with movement
 	this->aim_x = inputs->aim_x - GAME_WIDTH/2;
 	this->aim_y = inputs->aim_y - GAME_HEIGHT/2 - 16;
 
 	if(inputs->left && (vx - accel) >= -max_speed)
 		vx -= accel;
+
 	if(inputs->right && (vx + accel) <= max_speed)
 		vx += accel;
+
 	if(inputs->up && physics->on_ground(x, y, width, height, mapdata))
 	{
 		vy -= jump_height;
 		audio->play(JUMP_S);
-	}
+	} // if can jump
+
 	if(inputs->down && (vy + accel) <= max_speed)
 		vy += accel;
 
@@ -71,15 +74,11 @@ void Player::update(Input *inputs)
 	if(inputs->leftmouse && cooldown == 0)
 	{
 		double angle = -atan2(-aim_y, aim_x);
-		printf("%f, %f, %f\n", angle,
-			30 * cos(angle), 30 * sin(angle));
 
 		Bullet bull(x, y+18, 30 * cos(angle), 30 * sin(angle),
 			angle, mapdata, physics, audio);
 		bullets.push_back(bull);
-
 		audio->play(GUN_S);
-
 		cooldown = 6;
 	} // if shoot
 
@@ -94,22 +93,17 @@ void Player::update(Input *inputs)
 			bullets.erase(bullets.begin() + i);
 	} // update bullets
 
-
-	// Grenade
 	if(has_grenade && inputs->rightmouse)
 	{
 		double angle = -atan2(-aim_y, aim_x);
-		printf("%f, %f, %f\n", angle,
-			15 * cos(angle), 15 * sin(angle));
 
 		has_grenade = false;
 		grenade->activate(x, y+18, 15 * cos(angle), 15 * sin(angle));
-	}
+	} // if Grenade
 
 	if(grenade->is_alive)
 		killed += grenade->update(bunnies);
 	
-
 } // update()
 
 
@@ -137,7 +131,6 @@ void Bunny::update()
 
 	if(timer == 0)
 	{
-		
 		direction = player->x - x;
 
 		if(direction > 0 && (vx + accel) <= max_speed)
@@ -145,7 +138,6 @@ void Bunny::update()
 		else
 			if(direction < 0 && (vx - accel) >= -max_speed)
 				vx -= accel;
-
 
 		if(is_on_ground)
 		{
@@ -163,8 +155,6 @@ void Bunny::update()
 	else
 		timer--;
 		
-
-
 	if(!is_on_ground)
 		physics->gravity(&vy);
 
@@ -202,11 +192,10 @@ void Bunny::update()
 			!is_on_ground &&
 			!bitten)
 		{
-			printf("BITE\n");
 			bitten = true;
 			audio->play(HURT_S);
 			player->health--;
-		}
+		} // if bite
 	} // for i
 } // update()
 
@@ -238,14 +227,16 @@ int Bullet::update(std::vector<Bunny> *bunnies)
 {
 	bool killed = false;
 
-	physics->check_wall_col(&vx, &vy, x, y, 3, 3, mapdata);
-	if( sqrt(vx * vx + vy * vy) < 8)
-		kill();
-
 	life--;
+
 	if(life <= 0)
 		kill();
 
+	physics->check_wall_col(&vx, &vy, x, y, 3, 3, mapdata);
+
+	if( sqrt(vx * vx + vy * vy) < 8)
+		kill();
+	
 	x += vx;
 	y += vy;
 
@@ -276,12 +267,11 @@ int Bullet::update(std::vector<Bunny> *bunnies)
 				temp_y >= y &&
 				temp_y <= y + height)
 			{
-				printf("KILL\n");
 				kill();
 				(*bunnies)[i].kill();
 				killed++;
 				break;
-			} // if corners within
+			} // if corner of bullet in bunny
 		} // for j
 	} // for i
 	return killed;
@@ -332,18 +322,20 @@ int Grenade::update(std::vector<Bunny> *bunnies)
 	{
 		if(death_timer == 300)
 			audio->play(EXPLOSION_S);
+
 		death_timer--;
+
 		if(death_timer <=0)
 		{
-			printf("explode\n");
 			is_alive = false;
 			killed = bunnies->size();
 			bunnies->clear();
-		}
-	}
+		} // if is done exploding
+	} // if timer done counting
 
 	return killed;
 } // update()
+
 
 
 Gamedata::Gamedata(Mapdata *mapdata, Audio* audio):
@@ -356,17 +348,11 @@ Gamedata::Gamedata(Mapdata *mapdata, Audio* audio):
 
 
 
-
-Gamedata::~Gamedata()
-{
-} // ~Gamedata()
-
-
-
 void Gamedata::add_bunnies(Mapdata *mapdata)
 {
+	int max = 2048;
 
-	if(numBunnies <= 1024) // too much bunny
+	if(numBunnies <= max) // too much bunny
 	{
 		if(numBunnies == 0)
 		{
@@ -380,20 +366,23 @@ void Gamedata::add_bunnies(Mapdata *mapdata)
 		} // fib()
 	} // add fib untill too much bunny;
 
+
+
 	// add bunnies
-	if(bunnies.size() <= 1024)
+	if(bunnies.size() <= max)
+	{
+		printf("Bunnies on field:%lu, Bunnies added: %u\n", bunnies.size(),
+			numBunnies);
+
 		for(int i = 0; i < numBunnies; i++)
 		{
-			printf("num:%lu, numBun: %u\n", bunnies.size(),
-				numBunnies);
-
 			srand(i);
 			float dx = rand() % 31;
 
 			Bunny bun(1, mapdata->bunny_x, mapdata->bunny_y, mapdata, &physics,
 				audio, &player, dx);
 			bunnies.push_back(bun);
-		}
-	
+		} // for all bunnies being added
+	} // if not too much live bunnies
 } // add_bunnies
 

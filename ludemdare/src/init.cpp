@@ -3,6 +3,8 @@
 void init(ALLEGRO_EVENT_QUEUE **event_queue, ALLEGRO_TIMER **timer,
 	ALLEGRO_DISPLAY **display, bool *done)
 {
+	printf("Initializing...\n");
+
 	if (!al_init())                                // Initialize Allegro
 		abort_game("Failed to initialize allegro");
 
@@ -48,6 +50,7 @@ void init(ALLEGRO_EVENT_QUEUE **event_queue, ALLEGRO_TIMER **timer,
 	al_set_window_title(*display, "Yogo Holy Hand Grenade");
 	*done = false; // Initialized Succesfully!
 
+	printf("Initialized Successfully!\n");
 } // init()
 
 

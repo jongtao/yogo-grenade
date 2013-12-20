@@ -16,7 +16,6 @@ public:
 	int length;
 	int spawn_x, spawn_y;
 	int bunny_x, bunny_y;
-	int finish_x, finish_y;
 	Mapdata();
 	~Mapdata();
 	bool fetch_wall(int x, int y);

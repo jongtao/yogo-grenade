@@ -12,11 +12,6 @@ Game::Game(ALLEGRO_EVENT_QUEUE **event_queue, ALLEGRO_TIMER **timer,
 } // Game()
 
 
-Game::~Game()
-{
-} // ~Game()
-
-
 
 void Game::update()
 {
@@ -58,17 +53,14 @@ void Game::theme()
 	{
 		first = 0;
 		audio.play_r(SONG_S);
-	}
+	} // if need to begin song
 
 	counter++;
 	if(counter > 4000000000)
 		counter = 0;
 
 	if(counter % 600 == 0)
-	{
-		printf("add\n");
 		gamedata.add_bunnies(&mapdata);
-	}
 
 	if(gamedata.player.is_alive)
 		gamedata.player.update(&inputs);	
@@ -76,14 +68,14 @@ void Game::theme()
 	{
 		mode = FINALE;
 		return;
-	}
+	} // if dead
 
 	for(unsigned int i = 0; i < gamedata.bunnies.size(); i++)
 	{
 		if(!gamedata.bunnies[i].is_alive)
 			gamedata.bunnies.erase(gamedata.bunnies.begin() + i);
 		gamedata.bunnies[i].update();
-	}
+	} // for all bunnies
 } // theme()
 
 
@@ -92,3 +84,4 @@ void Game::finale()
 {
 	audio.stop_r();
 } // finale()
+

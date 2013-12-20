@@ -1,10 +1,14 @@
 #ifndef GAMEDATA_H
 #define GAMEDATA_H
-#include <cstdio>
-#include <cmath>
-#include <cstdlib>
-#include <vector>
+
 #include "allegro5/allegro.h"
+
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
+#include <vector>
+
+
 #include "mapdata.h"
 #include "physics.h"
 #include "constants.h"
@@ -114,7 +118,6 @@ public:
 	int numBunnies;
 
 	Gamedata(Mapdata* mapdata, Audio* audio);
-	~Gamedata();
 	void add_bunnies(Mapdata *mapdata);
 }; // class Gamedata
 
